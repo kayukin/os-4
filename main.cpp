@@ -1,11 +1,10 @@
 #include "MyThreadsLib.h"
-#include <stdlib.h>
-#include <string.h>
-#include <pthread.h>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
+using namespace MyThreadsLib;
+
 #define THREAD_COUNT 10
 #define OUTPUT_FILENAME "output.txt"
 
@@ -49,7 +48,7 @@ void *ServerFunction(void *arg) {
             sched_yield();
         BufferLock.WriteLock();
         buffer = s;
-        BufferLock.UnLock();
+        BufferLock.Unlock();
         SetFlags(false);
         if (s.compare("quit") == 0) {
             pthread_exit(NULL);
@@ -65,17 +64,17 @@ void *ClientFunction(void *arg) {
         s = buffer;
         FlagArrayLock.ReadLock();
         bool IsCurrentThreadWorked = FlagArray[ThreadIndex];
-        FlagArrayLock.UnLock();
+        FlagArrayLock.Unlock();
         if (!IsCurrentThreadWorked) {
             BufferLock.ReadLock();
             s = buffer;
-            BufferLock.UnLock();
+            BufferLock.Unlock();
             if (s == "quit") {
                 pthread_exit(NULL);
             }
             FileLock.WriteLock();
             file << "[" << ThreadIndex << "]: " << s << endl;
-            FileLock.UnLock();
+            FileLock.Unlock();
             FlagArrayLock.WriteLock();
             FlagArray[ThreadIndex] = true;
         }
@@ -88,7 +87,7 @@ bool AllThreadsDone() {
     FlagArrayLock.ReadLock();
     for (int i = 0; i < THREAD_COUNT; i++)
         result = result && FlagArray[i];
-    FlagArrayLock.UnLock();
+    FlagArrayLock.Unlock();
     return result;
 }
 
@@ -97,5 +96,5 @@ void SetFlags(bool b) {
     for (int i = 0; i < THREAD_COUNT; ++i) {
         FlagArray[i] = b;
     }
-    FlagArrayLock.UnLock();
+    FlagArrayLock.Unlock();
 }

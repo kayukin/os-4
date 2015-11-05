@@ -1,5 +1,7 @@
 #include "MyThreadsLib.h"
 
+using namespace MyThreadsLib;
+
 RwLock::RwLock() {
     pthread_rwlock_init(&lock, NULL);
 }
@@ -28,6 +30,6 @@ void RwLock::ReadLock() {
     pthread_rwlock_rdlock(&lock);
 }
 
-void RwLock::UnLock() {
+void RwLock::Unlock() {
     pthread_rwlock_unlock(&lock);
 }
