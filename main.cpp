@@ -51,7 +51,7 @@ void *ServerFunction(void *arg) {
         BufferLock.Unlock();
         SetFlags(false);
         if (s.compare("quit") == 0) {
-            pthread_exit(NULL);
+            return 0;
         }
         sched_yield();
     }
@@ -70,7 +70,7 @@ void *ClientFunction(void *arg) {
             s = buffer;
             BufferLock.Unlock();
             if (s == "quit") {
-                pthread_exit(NULL);
+                return 0;
             }
             FileLock.WriteLock();
             file << "[" << ThreadIndex << "]: " << s << endl;

@@ -26,6 +26,10 @@ namespace MyThreadsLib {
         Thread(void *(*ThreadFunction)(void *), void *arg = NULL);
 
         void Join();
+
+        bool operator==(const Thread &) const;
+
+        bool operator!=(const Thread &) const;
     };
 }
 #endif //OS_4_MYTHREADSLIB_H

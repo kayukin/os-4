@@ -33,3 +33,11 @@ void RwLock::ReadLock() {
 void RwLock::Unlock() {
     pthread_rwlock_unlock(&lock);
 }
+
+bool Thread::operator==(const Thread &thread2) const {
+    return (bool) pthread_equal(thread, thread2.thread);
+}
+
+bool Thread::operator!=(const Thread &thread2) const {
+    return !(*this == thread2);
+}
