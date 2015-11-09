@@ -4,7 +4,6 @@
 
 using namespace std;
 using namespace MyThreadsLib;
-
 #define THREAD_COUNT 10
 #define OUTPUT_FILENAME "output.txt"
 
@@ -20,8 +19,8 @@ string buffer = "EMPTY";
 bool FlagArray[THREAD_COUNT];
 ofstream file;
 RwLock BufferLock;
-RwLock FileLock; //запись в файл
-RwLock FlagArrayLock; //флаг работы клиента
+RwLock FileLock;
+RwLock FlagArrayLock;
 
 int main() {
     Thread server(ServerFunction);
